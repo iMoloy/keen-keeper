@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "geist/dist/fonts/geist-sans/style.css";
+
+:root {
+  font-family: "Geist Sans", sans-serif;
+}
+
