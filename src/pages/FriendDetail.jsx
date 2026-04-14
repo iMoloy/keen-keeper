@@ -61,7 +61,7 @@ export default function FriendDetail() {
 
   const handleCheckIn = (type) => {
     addTimelineEntry(type, friend.name);
-    showToast(`${type} with ${friend.name} logged! 🎉`);
+    showToast(`${type} with ${friend.name} successful!`);
   };
 
   const checkInButtons = [

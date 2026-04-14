@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const AppContext = createContext();
 
@@ -6,7 +7,6 @@ export function AppProvider({ children }) {
   const [friends, setFriends] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
     const loadFriends = async () => {
@@ -38,29 +38,20 @@ export function AppProvider({ children }) {
     });
   };
 
-  const showToast = (message, type = "success") => {
-    const id = Date.now();
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3500);
-  };
-
-  const removeToast = (id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+  const showToast = (message) => {
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 3500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   return (
     <AppContext.Provider
-      value={{
-        friends,
-        timeline,
-        loading,
-        addTimelineEntry,
-        showToast,
-        toasts,
-        removeToast,
-      }}
+      value={{ friends, timeline, loading, addTimelineEntry, showToast }}
     >
       {children}
     </AppContext.Provider>
