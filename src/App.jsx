@@ -1,12 +1,9 @@
-import './App.css'
+import React from 'react'
 
-function App() {
-
+export default function App() {
   return (
-    <>
-     <h2 className='text-stone-500 font-bold'>Hello</h2>
-    </>
+    <div>
+      <h1>KeenKeeper</h1>
+    </div>
   )
 }
-
-export default App

@@ -2,9 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "geist/dist/fonts/geist-sans/style.css";
-
-:root {
-  font-family: "Geist Sans", sans-serif;
+* {
+  font-family: "Geist", system-ui, sans-serif;
 }
 
+body {
+  background-color: #f3f6f3;
+  min-height: 100vh;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-enter {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
