@@ -4,6 +4,7 @@ import { AppProvider } from "./context/AppContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import Timeline from "./pages/Timeline";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <div className="flex-1">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/timeline" element={<Timeline />} />
             </Routes>
           </div>
           <Footer />
