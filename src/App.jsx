@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Timeline from "./pages/Timeline";
+import Stats from "./pages/Stats";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/timeline" element={<Timeline />} />
+              <Route path="/stats" element={<Stats />} />
             </Routes>
           </div>
           <Footer />
