@@ -29,22 +29,46 @@ function formatDate(dateStr) {
 export default function Timeline() {
   const { timeline } = useApp();
   const [filter, setFilter] = useState("All");
+  const [sort, setSort] = useState("newest");
+  const [search, setSearch] = useState("");
 
   const filters = ["All", "Call", "Text", "Video"];
 
-  const filtered =
-    filter === "All" ? timeline : timeline.filter((t) => t.type === filter);
-
-  const sorted = [...filtered].sort(
-    (a, b) => new Date(b.date) - new Date(a.date),
-  );
+  const filtered = timeline
+    .filter((t) => filter === "All" || t.type === filter)
+    .filter((t) => {
+      const q = search.toLowerCase();
+      return (
+        t.friendName.toLowerCase().includes(q) ||
+        t.type.toLowerCase().includes(q)
+      );
+    })
+    .sort((a, b) =>
+      sort === "newest"
+        ? new Date(b.date) - new Date(a.date)
+        : new Date(a.date) - new Date(b.date),
+    );
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Timeline</h1>
 
-      <div className="mb-6">
-        <div className="relative inline-block w-56">
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        {/* Search */}
+        <div className="relative flex-1 max-w-sm">
+          <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+          <input
+            type="text"
+            placeholder="Search by name or type..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-8 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#2D5A1B]"
+          />
+        </div>
+
+        {/* Filter */}
+        <div className="relative inline-block w-44">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
@@ -61,25 +85,41 @@ export default function Timeline() {
             <i className="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
           </div>
         </div>
+
+        {/* Sort */}
+        <div className="relative inline-block w-44">
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="w-full appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2.5 pr-8 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#2D5A1B] cursor-pointer"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+            <i className="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+          </div>
+        </div>
       </div>
 
-      {sorted.length === 0 ? (
+      {/* Empty state */}
+      {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <i className="fa-solid fa-clock-rotate-left text-gray-400 text-2xl"></i>
           </div>
           <h3 className="text-base font-semibold text-gray-700 mb-1">
-            No interactions yet
+            No interactions found
           </h3>
           <p className="text-sm text-gray-400 max-w-xs">
-            {filter === "All"
+            {timeline.length === 0
               ? "Go to a friend's page and use Quick Check-In to log a call, text, or video."
-              : `No ${filter} interactions logged yet.`}
+              : "Try a different search or filter."}
           </p>
         </div>
       ) : (
         <div className="flex flex-col gap-2 max-w-3xl">
-          {sorted.map((entry) => {
+          {filtered.map((entry) => {
             const config = typeConfig[entry.type] || typeConfig["Call"];
             return (
               <div
