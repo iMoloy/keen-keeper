@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const statusConfig = {
@@ -14,17 +14,26 @@ const statusConfig = {
 export default function FriendCard({ friend }) {
   const navigate = useNavigate();
   const status = statusConfig[friend.status] || statusConfig["on-track"];
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div
       onClick={() => navigate(`/friend/${friend.id}`)}
       className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col items-center text-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
     >
-      <img
-        src={friend.picture}
-        alt={friend.name}
-        className="w-16 h-16 rounded-full object-cover mb-3 ring-2 ring-gray-100"
-      />
+      {imgError ? (
+        <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mb-3 ring-2 ring-gray-100">
+          <i className="fa-solid fa-user text-gray-400 text-xl"></i>
+        </div>
+      ) : (
+        <img
+          src={friend.picture}
+          alt={friend.name}
+          onError={() => setImgError(true)}
+          className="w-16 h-16 rounded-full object-cover mb-3 ring-2 ring-gray-100"
+        />
+      )}
+
       <h3 className="font-semibold text-gray-900 text-sm mb-1">
         {friend.name}
       </h3>

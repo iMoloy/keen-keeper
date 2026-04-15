@@ -11,7 +11,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     const loadFriends = async () => {
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       const { default: data } = await import("../data/friends.json");
       setFriends(data);
       setLoading(false);
