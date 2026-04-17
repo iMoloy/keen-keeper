@@ -11,21 +11,6 @@ body {
   min-height: 100vh;
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.toast-enter {
-  animation: slideInRight 0.3s ease forwards;
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
